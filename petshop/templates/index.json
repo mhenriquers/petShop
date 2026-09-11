@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main-banner": {
+      "type": "main-banner",
+      "settings": {
+        "title": "JOFA",
+        "subtitle": "Atelier digital de acessórios premium para pets"
+      }
+    }
+  },
+  "order": [
+    "main-banner"
+  ]
+}

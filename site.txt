@@ -1,0 +1,1 @@
+shopify.cmd theme dev --path .\petshop --store=jofagroup.myshopify.com

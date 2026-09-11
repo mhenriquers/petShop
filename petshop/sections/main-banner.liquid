@@ -1,0 +1,61 @@
+{% comment %}
+  Seção: Main Banner
+  Placeholder temporário para a página inicial.
+  Será substituído pelo hero real na Fase 4.
+{% endcomment %}
+
+<section class="main-banner">
+  <div class="main-banner__container">
+    <h1 class="main-banner__title">JOFA</h1>
+    <p class="main-banner__subtitle">Atelier digital de acessórios premium para pets</p>
+  </div>
+</section>
+
+<style>
+  .main-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+
+  .main-banner__title {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    letter-spacing: 0.05em;
+    color: var(--color-text);
+  }
+
+  .main-banner__subtitle {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: var(--color-accent);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Main Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "JOFA"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtítulo",
+      "default": "Atelier digital de acessórios premium para pets"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Main Banner"
+    }
+  ]
+}
+{% endschema %}
