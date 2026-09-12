@@ -33,3 +33,60 @@
   display: flex;
   gap: 1rem;
 }
+
+/* ============================================================
+   JOFA — Atelier Digital de Acessórios Premium para Pets
+   global.js — Comportamento global do tema
+   ============================================================ */
+
+(function () {
+  "use strict";
+
+  /**
+   * Inicialização global do tema.
+   * Funções específicas serão adicionadas em tarefas futuras:
+   * - Menu mobile
+   * - Drawer do carrinho
+   * - Galerias de produto
+   * - Seleção de variantes
+   * - Filtros e ordenação
+   */
+
+  console.log("[JOFA] Tema carregado.");
+})();
+
+/* ===========================================
+   Header
+   =========================================== */
+.header {
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header a {
+  position: relative;
+  text-decoration: none;
+  color: var(--color-foreground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header a sup {
+  position: absolute;
+  left: 100%;
+  overflow: hidden;
+  max-width: var(--page-margin);
+}
+
+.header svg {
+  width: 2rem;
+}
+
+.header__menu,
+.header__icons {
+  display: flex;
+  gap: 1rem;
+}

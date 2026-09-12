@@ -18,3 +18,4 @@
 
   console.log("[JOFA] Tema carregado.");
 })();
+
