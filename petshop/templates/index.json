@@ -1,5 +1,14 @@
 {
   "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "hero_title": "Peças autorais para o seu melhor amigo",
+        "hero_text": "Acessórios premium feitos com intenção, materiais selecionados e acabamento que dura.",
+        "hero_button_label": "Comprar",
+        "hero_button_secondary_label": "Ver coleções"
+      }
+    },
     "main-banner": {
       "type": "main-banner",
       "settings": {
@@ -9,6 +18,7 @@
     }
   },
   "order": [
+    "hero",
     "main-banner"
   ]
 }

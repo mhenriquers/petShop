@@ -1,0 +1,140 @@
+<section class="hero" data-section-id="{{ section.id }}">
+  <div class="hero__media">
+    {% if section.settings.hero_image != blank %}
+      <img
+        src="{{ section.settings.hero_image | image_url: width: 2400 }}"
+        srcset="
+          {{ section.settings.hero_image | image_url: width: 1200 }} 1200w,
+          {{ section.settings.hero_image | image_url: width: 1600 }} 1600w,
+          {{ section.settings.hero_image | image_url: width: 2000 }} 2000w,
+          {{ section.settings.hero_image | image_url: width: 2400 }} 2400w
+        "
+        sizes="100vw"
+        alt="{{ section.settings.hero_title | escape }}"
+        class="hero__image"
+        loading="eager"
+        width="{{ section.settings.hero_image.width }}"
+        height="{{ section.settings.hero_image.height }}"
+      >
+    {% else %}
+      <div class="hero__placeholder">
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'hero__placeholder-svg' }}
+      </div>
+    {% endif %}
+    <div
+      class="hero__overlay"
+      style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"
+    ></div>
+  </div>
+
+  <div class="hero__content">
+    <div class="hero__inner">
+      {% if section.settings.hero_title != blank %}
+        <h1 class="hero__title">{{ section.settings.hero_title }}</h1>
+      {% endif %}
+
+      {% if section.settings.hero_subtitle != blank %}
+        <p class="hero__subtitle">{{ section.settings.hero_subtitle }}</p>
+      {% endif %}
+
+      <div class="hero__actions">
+        {% if section.settings.button_primary_text != blank %}
+          <a
+            href="{{ section.settings.button_primary_link | default: routes.all_products_collection_url }}"
+            class="hero__button hero__button--primary"
+          >
+            {{ section.settings.button_primary_text }}
+          </a>
+        {% endif %}
+
+        {% if section.settings.button_secondary_text != blank %}
+          <a
+            href="{{ section.settings.button_secondary_link | default: '#' }}"
+            class="hero__button hero__button--secondary"
+          >
+            {{ section.settings.button_secondary_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Principal",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Imagem"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Imagem de fundo"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Opacidade da sobreposição escura",
+      "default": 35
+    },
+    {
+      "type": "header",
+      "content": "Texto"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Título curto",
+      "default": "Acessórios premium para o seu cão"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_subtitle",
+      "label": "Texto de apoio",
+      "default": "Peças autorais, feitas com intenção. Materiais selecionados, processo transparente."
+    },
+    {
+      "type": "header",
+      "content": "Botão principal"
+    },
+    {
+      "type": "text",
+      "id": "button_primary_text",
+      "label": "Texto do botão principal",
+      "default": "Comprar"
+    },
+    {
+      "type": "url",
+      "id": "button_primary_link",
+      "label": "Link do botão principal"
+    },
+    {
+      "type": "header",
+      "content": "Botão secundário (opcional)"
+    },
+    {
+      "type": "text",
+      "id": "button_secondary_text",
+      "label": "Texto do botão secundário"
+    },
+    {
+      "type": "url",
+      "id": "button_secondary_link",
+      "label": "Link do botão secundário"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Principal",
+      "category": "Home"
+    }
+  ]
+}
+{% endschema %}

@@ -394,3 +394,151 @@
     transform: translateY(-0.55rem) rotate(-45deg);
   }
 }
+
+/* ========================================
+   HERO — Seção principal da home
+   Tarefa 4.1
+   ======================================== */
+
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--color-bg, #f5f1eb);
+}
+
+.hero__image-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero__image--placeholder {
+  background: var(--color-bg-alt, #e8e0d5);
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.25) 50%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+}
+
+.hero__content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: var(--max-width, 1400px);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md, 2rem);
+}
+
+.hero__content > * {
+  max-width: 36rem;
+}
+
+.hero__title {
+  font-family: var(--font-heading, Georgia, 'Times New Roman', serif);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--color-text-light, #ffffff);
+  margin: 0 0 var(--spacing-sm, 1.5rem) 0;
+}
+
+.hero__text {
+  font-family: var(--font-body, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--color-text-light, #ffffff);
+  margin: 0 0 var(--spacing-lg, 2.5rem) 0;
+  max-width: 28rem;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm, 1rem);
+}
+
+.hero__button {
+  display: inline-block;
+  padding: var(--spacing-sm, 1rem) var(--spacing-lg, 2.5rem);
+  font-family: var(--font-body, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.hero__button--primary {
+  background: var(--color-button, #1a1a1a);
+  color: var(--color-button-text, #ffffff);
+}
+
+.hero__button--primary:hover,
+.hero__button--primary:focus-visible {
+  background: var(--color-button-hover, #333333);
+}
+
+.hero__button--secondary {
+  background: transparent;
+  color: var(--color-text-light, #ffffff);
+  border-color: var(--color-text-light, #ffffff);
+}
+
+.hero__button--secondary:hover,
+.hero__button--secondary:focus-visible {
+  background: var(--color-text-light, #ffffff);
+  color: var(--color-text, #1a1a1a);
+}
+
+.hero__button:focus-visible {
+  outline: 2px solid var(--color-text-light, #ffffff);
+  outline-offset: 4px;
+}
+
+/* ===== Hero — Mobile ===== */
+@media (max-width: 768px) {
+  .hero {
+    min-height: 85vh;
+  }
+
+  .hero__content {
+    text-align: center;
+  }
+
+  .hero__content > * {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero__text {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero__actions {
+    justify-content: center;
+  }
+}
