@@ -9,6 +9,14 @@
         "hero_button_secondary_label": "Ver coleções"
       }
     },
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+        "section_title": "Seleção atual",
+        "section_link_label": "Ver tudo",
+        "products_to_show": 4
+      }
+    },
     "main-banner": {
       "type": "main-banner",
       "settings": {
@@ -19,6 +27,7 @@
   },
   "order": [
     "hero",
+    "featured-collection",
     "main-banner"
   ]
 }

@@ -1,0 +1,124 @@
+{% comment %}
+  Seção: Coleção em destaque
+  Fase: 4 — Página inicial
+  Tarefa: 4.2
+  Descrição: Grade editorial de produtos de uma coleção selecionada
+{% endcomment %}
+
+<section class="featured-collection" id="featured-collection-{{ section.id }}">
+  <div class="featured-collection__container">
+    {%- if section.settings.section_title != blank or section.settings.section_link_label != blank -%}
+      <div class="featured-collection__header">
+        {%- if section.settings.section_title != blank -%}
+          <h2 class="featured-collection__title">{{ section.settings.section_title }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.section_link_label != blank and section.settings.collection != blank -%}
+          <a
+            href="{{ section.settings.collection.url }}"
+            class="featured-collection__view-all"
+          >
+            {{ section.settings.section_link_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.collection != blank and section.settings.collection.products_count > 0 -%}
+      <div class="featured-collection__grid">
+        {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
+          <a
+            href="{{ product.url }}"
+            class="product-card"
+          >
+            <div class="product-card__media">
+              {%- if product.featured_image != blank -%}
+                <img
+                  src="{{ product.featured_image | image_url: width: 600 }}"
+                  srcset="
+                    {{ product.featured_image | image_url: width: 300 }} 300w,
+                    {{ product.featured_image | image_url: width: 450 }} 450w,
+                    {{ product.featured_image | image_url: width: 600 }} 600w
+                  "
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                  class="product-card__image"
+                  loading="lazy"
+                  width="{{ product.featured_image.width }}"
+                  height="{{ product.featured_image.height }}"
+                >
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag: 'product-card__image product-card__image--placeholder' }}
+              {%- endif -%}
+
+              {%- unless product.available -%}
+                <span class="product-card__badge product-card__badge--sold-out">
+                  Esgotado
+                </span>
+              {%- endunless -%}
+            </div>
+
+            <div class="product-card__info">
+              <h3 class="product-card__title">{{ product.title }}</h3>
+              <p class="product-card__price">
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="product-card__price--compare">
+                    {{ product.compare_at_price | money }}
+                  </span>
+                {%- endif -%}
+                <span class="product-card__price--current">
+                  {{ product.price | money }}
+                </span>
+              </p>
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="featured-collection__empty">
+        <p>Selecione uma coleção no editor de tema para exibir produtos aqui.</p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Coleção em destaque",
+  "tag": "section",
+  "class": "section-featured-collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Título da seção",
+      "default": "Seleção atual"
+    },
+    {
+      "type": "text",
+      "id": "section_link_label",
+      "label": "Texto do link 'ver tudo'",
+      "default": "Ver tudo"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Coleção"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "label": "Número de produtos",
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Coleção em destaque"
+    }
+  ]
+}
+{% endschema %}
