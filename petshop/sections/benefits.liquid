@@ -1,0 +1,170 @@
+{% comment %}
+  Seção: Benefícios
+  Fase: 4 — Página inicial
+  Tarefa: 4.4
+  Descrição: Faixa de benefícios de serviço (entrega, troca, garantia, atendimento)
+{% endcomment %}
+
+<section class="benefits" id="benefits-{{ section.id }}">
+  <div class="benefits__container">
+    {%- if section.settings.section_title != blank -%}
+      <h2 class="benefits__title">{{ section.settings.section_title }}</h2>
+    {%- endif -%}
+
+    <div class="benefits__grid">
+      {%- for block in section.blocks -%}
+        <div class="benefits__item" {{ block.shopify_attributes }}>
+          <div class="benefits__icon-wrapper">
+            {%- case block.settings.icon -%}
+              {%- when 'truck' -%}
+                <svg class="benefits__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M3 7h11v8H3V7z"/>
+                  <path d="M14 10h4l3 3v2h-7v-5z"/>
+                  <circle cx="7" cy="18" r="2"/>
+                  <circle cx="17" cy="18" r="2"/>
+                </svg>
+              {%- when 'shield' -%}
+                <svg class="benefits__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/>
+                  <path d="M9 12l2 2 4-4"/>
+                </svg>
+              {%- when 'refresh' -%}
+                <svg class="benefits__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
+                  <path d="M21 3v5h-5"/>
+                  <path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
+                  <path d="M3 21v-5h5"/>
+                </svg>
+              {%- when 'chat' -%}
+                <svg class="benefits__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M21 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v10z"/>
+                  <path d="M8 9h8M8 13h5"/>
+                  <line x1="8" y1="9" x2="16" y2="9"/>
+                </svg>
+              {%- when 'heart' -%}
+                <svg class="benefits__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>
+                </svg>
+              {%- when 'clock' -%}
+                <svg class="benefits__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9"/>
+                  <path d="M12 7v5l3 2"/>
+                </svg>
+              {%- when 'package' -%}
+                <svg class="benefits__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M21 8l-9-5-9 5v8l9 5 9-5V8z"/>
+                  <path d="M3 8l9 5 9-5"/>
+                  <path d="M12 13v8"/>
+                </svg>
+              {%- else -%}
+                <svg class="benefits__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9"/>
+                  <path d="M12 8v4M12 16h.01"/>
+                </svg>
+            {%- endcase -%}
+          </div>
+
+          <div class="benefits__content">
+            {%- if block.settings.title != blank -%}
+              <h3 class="benefits__item-title">{{ block.settings.title }}</h3>
+            {%- endif -%}
+
+            {%- if block.settings.text != blank -%}
+              <p class="benefits__item-text">{{ block.settings.text }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Benefícios",
+  "tag": "section",
+  "class": "section-benefits",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Título da seção (opcional)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefício",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Ícone",
+          "options": [
+            { "value": "truck", "label": "Entrega" },
+            { "value": "shield", "label": "Garantia" },
+            { "value": "refresh", "label": "Troca" },
+            { "value": "chat", "label": "Atendimento" },
+            { "value": "heart", "label": "Cuidado" },
+            { "value": "clock", "label": "Prazo" },
+            { "value": "package", "label": "Embalagem" },
+            { "value": "info", "label": "Informação" }
+          ],
+          "default": "truck"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Entrega segura"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Texto curto",
+          "default": "Envio com rastreio para todo o Brasil."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Benefícios",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "truck",
+            "title": "Entrega segura",
+            "text": "Envio com rastreio para todo o Brasil."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "refresh",
+            "title": "Troca simples",
+            "text": "7 dias para solicitar troca sem complicação."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "shield",
+            "title": "Garantia de qualidade",
+            "text": "Cada peça passa por verificação antes do envio."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "chat",
+            "title": "Atendimento humano",
+            "text": "Resposta em até 24 horas em dias úteis."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

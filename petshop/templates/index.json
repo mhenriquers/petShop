@@ -28,6 +28,50 @@
         "highlight_2_text": "Confecção cuidadosa, peça por peça."
       }
     },
+    "benefits": {
+      "type": "benefits",
+      "settings": {},
+      "blocks": {
+        "benefit-1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "truck",
+            "title": "Entrega segura",
+            "text": "Envio com rastreio para todo o Brasil."
+          }
+        },
+        "benefit-2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "refresh",
+            "title": "Troca simples",
+            "text": "7 dias para solicitar troca sem complicação."
+          }
+        },
+        "benefit-3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "shield",
+            "title": "Garantia de qualidade",
+            "text": "Cada peça passa por verificação antes do envio."
+          }
+        },
+        "benefit-4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "chat",
+            "title": "Atendimento humano",
+            "text": "Resposta em até 24 horas em dias úteis."
+          }
+        }
+      },
+      "block_order": [
+        "benefit-1",
+        "benefit-2",
+        "benefit-3",
+        "benefit-4"
+      ]
+    },
     "main-banner": {
       "type": "main-banner",
       "settings": {
@@ -40,6 +84,7 @@
     "hero",
     "featured-collection",
     "materials-process",
+    "benefits",
     "main-banner"
   ]
 }
