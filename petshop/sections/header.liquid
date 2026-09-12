@@ -1,12 +1,24 @@
 <header class="header">
+  <button type="button" class="header__menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="header-nav">
+    <span class="header__menu-toggle-bar"></span>
+    <span class="header__menu-toggle-bar"></span>
+    <span class="header__menu-toggle-bar"></span>
+  </button>
+
   <h2 class="header__title">
     {{ shop.name | link_to: routes.root_url }}
   </h2>
-  <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
+
+  <nav class="header__nav" id="header-nav" aria-label="Menu principal">
+    <div class="header__menu">
+      {% for link in section.settings.menu.links %}
+        {{ link.title | link_to: link.url }}
+      {% endfor %}
+    </div>
+  </nav>
+
+  <div class="header__overlay" aria-hidden="true"></div>
+
   <div class="header__icons">
     <form action="{{ routes.search_url }}" method="get" class="header__search" role="search">
       <button type="button" class="header__search-toggle" aria-label="Abrir busca" aria-expanded="false">

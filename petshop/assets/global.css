@@ -303,3 +303,94 @@
     overflow: visible;
   }
 }
+
+/* ===========================================
+   Header — Mobile Menu
+   =========================================== */
+.header__menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.35rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.header__menu-toggle-bar {
+  display: block;
+  width: 1.5rem;
+  height: 2px;
+  background: var(--color-foreground);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.header__overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 90;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.header__nav {
+  position: relative;
+}
+
+/* Mobile: drawer ativo */
+@media (max-width: 767px) {
+  .header__menu-toggle {
+    display: flex;
+  }
+
+  .header__nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 16rem;
+    background: var(--color-background, #fff);
+    flex-direction: column;
+    padding: 5rem 1.5rem 2rem;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 100;
+    overflow-y: auto;
+  }
+
+  .header__nav.is-open {
+    transform: translateX(0);
+  }
+
+  .header__nav .header__menu {
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .header__overlay.is-visible {
+    display: block;
+    opacity: 1;
+  }
+
+  /* Hambúrguer -> X */
+  .header__menu-toggle.is-active .header__menu-toggle-bar:nth-child(1) {
+    transform: translateY(0.55rem) rotate(45deg);
+  }
+
+  .header__menu-toggle.is-active .header__menu-toggle-bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .header__menu-toggle.is-active .header__menu-toggle-bar:nth-child(3) {
+    transform: translateY(-0.55rem) rotate(-45deg);
+  }
+}
