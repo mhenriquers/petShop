@@ -1072,3 +1072,84 @@
     margin-bottom: var(--spacing-lg, 2.5rem);
   }
 }
+
+/* ========================================
+   INSTITUCIONAL — Home
+   Tarefa 4.6
+   ======================================== */
+
+.institutional {
+  width: 100%;
+  padding: var(--spacing-xxl, 7rem) 0;
+  background: var(--color-bg-alt, #ebe5dc);
+  text-align: center;
+}
+
+.institutional__container {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md, 2rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md, 1.5rem);
+}
+
+.institutional__title {
+  font-family: var(--font-heading, Georgia, 'Times New Roman', serif);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--color-text, #1a1a1a);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.institutional__text {
+  font-family: var(--font-body, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.7;
+  color: var(--color-text-muted, #555555);
+  font-weight: 300;
+}
+
+.institutional__text p {
+  margin: 0 0 var(--spacing-sm, 1rem) 0;
+}
+
+.institutional__text p:last-child {
+  margin-bottom: 0;
+}
+
+.institutional__button {
+  display: inline-block;
+  margin-top: var(--spacing-sm, 0.5rem);
+  padding: 0.9rem 2.75rem;
+  font-family: var(--font-body, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: var(--color-button, #1a1a1a);
+  color: var(--color-button-text, #ffffff);
+  border: 1px solid transparent;
+  transition: background 0.3s ease;
+}
+
+.institutional__button:hover,
+.institutional__button:focus-visible {
+  background: var(--color-button-hover, #333333);
+}
+
+.institutional__button:focus-visible {
+  outline: 2px solid var(--color-text, #1a1a1a);
+  outline-offset: 4px;
+}
+
+/* ===== Responsive ===== */
+
+@media (max-width: 768px) {
+  .institutional {
+    padding: var(--spacing-xl, 4rem) 0;
+  }
+}

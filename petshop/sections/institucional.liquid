@@ -1,0 +1,72 @@
+{% comment %}
+  Seção: Institucional
+  Fase: 4 — Página inicial
+  Tarefa: 4.6
+  Descrição: Manifesto curto de encerramento da home
+{% endcomment %}
+
+<section class="institutional" id="institutional-{{ section.id }}">
+  <div class="institutional__container">
+    {%- if section.settings.title != blank -%}
+      <h2 class="institutional__title">{{ section.settings.title }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.text != blank -%}
+      <div class="institutional__text">
+        {{ section.settings.text }}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+      <a
+        href="{{ section.settings.button_link }}"
+        class="institutional__button"
+      >
+        {{ section.settings.button_label }}
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Institucional",
+  "tag": "section",
+  "class": "section-institutional",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Feito com intenção"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texto manifesto",
+      "default": "<p>Cada peça existe porque existe uma razão para ela existir. Materiais escolhidos, processo transparente e acabamento que dura mais que a tendência.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Botão (opcional)"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto do botão",
+      "default": "Conheça o atelier"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Link do botão"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Institucional"
+    }
+  ]
+}
+
+{% endschema %} 

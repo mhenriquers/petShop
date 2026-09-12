@@ -81,6 +81,14 @@
       "blocks": {},
       "block_order": []
     },
+    "institutional": {
+      "type": "institutional",
+      "settings": {
+        "title": "Feito com intenção",
+        "text": "<p>Cada peça existe porque existe uma razão para ela existir. Materiais escolhidos, processo transparente e acabamento que dura mais que a tendência.</p>",
+        "button_label": "Conheça o atelier"
+      }
+    },
     "main-banner": {
       "type": "main-banner",
       "settings": {
@@ -95,6 +103,7 @@
     "materials-process",
     "benefits",
     "featured-products",
+    "institutional",
     "main-banner"
   ]
 }
