@@ -8,6 +8,18 @@
     {% endfor %}
   </div>
   <div class="header__icons">
+    <form action="{{ routes.search_url }}" method="get" class="header__search" role="search">
+      <button type="button" class="header__search-toggle" aria-label="Abrir busca" aria-expanded="false">
+        {{ 'icon-search.svg' | inline_asset_content }}
+      </button>
+      <input
+        type="search"
+        name="q"
+        class="header__search-input"
+        placeholder="Buscar"
+        aria-label="Buscar produtos"
+      >
+    </form>
     {% if shop.customer_accounts_enabled %}
       <shopify-account menu="{{ section.settings.customer_account_menu }}">
         {{ 'icon-account.svg' | inline_asset_content }}
