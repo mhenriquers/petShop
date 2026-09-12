@@ -1,0 +1,165 @@
+{% comment %}
+  Seção: Materiais e processo
+  Fase: 4 — Página inicial
+  Tarefa: 4.3
+  Descrição: Bloco editorial split com imagem e texto sobre materiais e processo
+{% endcomment %}
+
+<section class="materials-process" id="materials-process-{{ section.id }}">
+  <div class="materials-process__container">
+    <div class="materials-process__media">
+      {%- if section.settings.image != blank -%}
+        <img
+          src="{{ section.settings.image | image_url: width: 1200 }}"
+          srcset="
+            {{ section.settings.image | image_url: width: 600 }} 600w,
+            {{ section.settings.image | image_url: width: 900 }} 900w,
+            {{ section.settings.image | image_url: width: 1200 }} 1200w
+          "
+          sizes="(max-width: 768px) 100vw, 50vw"
+          alt="{{ section.settings.image.alt | default: section.settings.title | escape }}"
+          class="materials-process__image"
+          loading="lazy"
+          width="{{ section.settings.image.width }}"
+          height="{{ section.settings.image.height }}"
+        >
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'materials-process__image materials-process__image--placeholder' }}
+      {%- endif -%}
+    </div>
+
+    <div class="materials-process__content">
+      {%- if section.settings.title != blank -%}
+        <h2 class="materials-process__title">{{ section.settings.title }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.text != blank -%}
+        <div class="materials-process__text">
+          {{ section.settings.text }}
+        </div>
+      {%- endif -%}
+
+      {%- assign has_highlight = false -%}
+      {%- for i in (1..3) -%}
+        {%- assign highlight_key = 'highlight_' | append: i | append: '_label' -%}
+        {%- if section.settings[highlight_key] != blank -%}
+          {%- assign has_highlight = true -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if has_highlight -%}
+        <ul class="materials-process__highlights">
+          {%- for i in (1..3) -%}
+            {%- assign highlight_label_key = 'highlight_' | append: i | append: '_label' -%}
+            {%- assign highlight_text_key = 'highlight_' | append: i | append: '_text' -%}
+            {%- if section.settings[highlight_label_key] != blank -%}
+              <li class="materials-process__highlight">
+                <span class="materials-process__highlight-label">
+                  {{ section.settings[highlight_label_key] }}
+                </span>
+                {%- if section.settings[highlight_text_key] != blank -%}
+                  <span class="materials-process__highlight-text">
+                    {{ section.settings[highlight_text_key] }}
+                  </span>
+                {%- endif -%}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+        <a
+          href="{{ section.settings.button_link }}"
+          class="materials-process__button"
+        >
+          {{ section.settings.button_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Materiais e processo",
+  "tag": "section",
+  "class": "section-materials-process",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagem"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Matéria e processo"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texto",
+      "default": "<p>Cada peça nasce de uma escolha consciente de materiais e de um processo que prioriza acabamento e durabilidade.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Destaques"
+    },
+    {
+      "type": "text",
+      "id": "highlight_1_label",
+      "label": "Destaque 1 — rótulo",
+      "default": "Materiais"
+    },
+    {
+      "type": "text",
+      "id": "highlight_1_text",
+      "label": "Destaque 1 — descrição",
+      "default": "Selecionados por resistência, toque e estética."
+    },
+    {
+      "type": "text",
+      "id": "highlight_2_label",
+      "label": "Destaque 2 — rótulo",
+      "default": "Processo"
+    },
+    {
+      "type": "text",
+      "id": "highlight_2_text",
+      "label": "Destaque 2 — descrição",
+      "default": "Confecção cuidadosa, peça por peça."
+    },
+    {
+      "type": "text",
+      "id": "highlight_3_label",
+      "label": "Destaque 3 — rótulo"
+    },
+    {
+      "type": "text",
+      "id": "highlight_3_text",
+      "label": "Destaque 3 — descrição"
+    },
+    {
+      "type": "header",
+      "content": "Botão (opcional)"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto do botão"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Link do botão"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Materiais e processo"
+    }
+  ]
+}
+{% endschema %}
