@@ -1,0 +1,138 @@
+{% comment %}
+  Seção: Produtos destacados
+  Fase: 4 — Página inicial
+  Tarefa: 4.5
+  Descrição: Produtos individuais com layout editorial alternado
+{% endcomment %}
+
+<section class="featured-products" id="featured-products-{{ section.id }}">
+  <div class="featured-products__container">
+    {%- if section.settings.section_title != blank -%}
+      <h2 class="featured-products__title">{{ section.settings.section_title }}</h2>
+    {%- endif -%}
+
+    <div class="featured-products__list">
+      {%- for block in section.blocks -%}
+        {%- assign product = block.settings.product -%}
+        {%- assign is_even = forloop.index | modulo: 2 -%}
+
+        <article
+          class="featured-products__item{% if is_even == 0 %} featured-products__item--reverse{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="featured-products__media">
+            {%- if product != blank and product.featured_image != blank -%}
+              <img
+                src="{{ product.featured_image | image_url: width: 1000 }}"
+                srcset="
+                  {{ product.featured_image | image_url: width: 500 }} 500w,
+                  {{ product.featured_image | image_url: width: 800 }} 800w,
+                  {{ product.featured_image | image_url: width: 1000 }} 1000w
+                "
+                sizes="(max-width: 768px) 100vw, 50vw"
+                alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                class="featured-products__image"
+                loading="lazy"
+                width="{{ product.featured_image.width }}"
+                height="{{ product.featured_image.height }}"
+              >
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'featured-products__image featured-products__image--placeholder' }}
+            {%- endif -%}
+
+            {%- if product != blank and product.available == false -%}
+              <span class="featured-products__badge">Esgotado</span>
+            {%- endif -%}
+
+            {%- if block.settings.custom_label != blank -%}
+              <span class="featured-products__label">{{ block.settings.custom_label }}</span>
+            {%- endif -%}
+          </div>
+
+          <div class="featured-products__content">
+            {%- if product != blank -%}
+              <h3 class="featured-products__name">{{ product.title }}</h3>
+
+              <p class="featured-products__price">
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="featured-products__price--compare">
+                    {{ product.compare_at_price | money }}
+                  </span>
+                {%- endif -%}
+                <span class="featured-products__price--current">
+                  {{ product.price | money }}
+                </span>
+              </p>
+
+              {%- if block.settings.description != blank -%}
+                <p class="featured-products__description">{{ block.settings.description }}</p>
+              {%- elsif product.description != blank -%}
+                <p class="featured-products__description">
+                  {{ product.description | strip_html | truncatewords: 18 }}
+                </p>
+              {%- endif -%}
+
+              <a
+                href="{{ product.url }}"
+                class="featured-products__button"
+              >
+                Ver peça
+              </a>
+            {%- else -%}
+              <h3 class="featured-products__name">Selecione um produto</h3>
+              <p class="featured-products__description">
+                Escolha um produto no editor de tema para exibi-lo aqui.
+              </p>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Produtos destacados",
+  "tag": "section",
+  "class": "section-featured-products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Título da seção",
+      "default": "Peças em destaque"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Produto",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Produto"
+        },
+        {
+          "type": "text",
+          "id": "custom_label",
+          "label": "Rótulo opcional (ex: Novidade, Edição limitada)"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Descrição curta (opcional)",
+          "info": "Deixe em branco para usar a descrição do produto automaticamente."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Produtos destacados"
+    }
+  ]
+}
+{% endschema %}
