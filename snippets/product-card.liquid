@@ -10,11 +10,13 @@
   - Selo de indisponibilidade (quando esgotado)
   - Nome do produto
   - Preço
+  - Contador de variantes (quando houver mais de uma)
   - Link para a página do produto
 {% endcomment %}
 
 {% if product != blank %}
   {% assign second_image = product.images[1] %}
+  {% assign variant_count = product.variants | size %}
 
   <article class="product-card">
     <div class="product-card__media-wrap">
@@ -61,6 +63,12 @@
       <p class="product-card__price">
         {{ product.price | money }}
       </p>
+
+      {% if variant_count > 1 %}
+        <p class="product-card__variants">
+          {{ variant_count }} opções
+        </p>
+      {% endif %}
     </div>
   </article>
 {% endif %}
