@@ -93,6 +93,47 @@
 
     <div class="collection-main">
 
+      {%- comment -%} Ordenação — preserva os filtros ativos em campos ocultos {%- endcomment -%}
+      {%- if collection.sort_options != blank -%}
+        <div class="collection-toolbar">
+          <form method="get" action="{{ collection.url }}" class="collection-sort">
+            {%- if collection.filters != blank -%}
+              {%- for filter in collection.filters -%}
+                {%- if filter.type == 'list' or filter.type == 'boolean' -%}
+                  {%- for filter_value in filter.values -%}
+                    {%- if filter_value.active -%}
+                      <input type="hidden" name="{{ filter_value.param_name }}" value="{{ filter_value.value }}">
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- elsif filter.type == 'price_range' -%}
+                  {%- if filter.min_value.value -%}
+                    <input type="hidden" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}">
+                  {%- endif -%}
+                  {%- if filter.max_value.value -%}
+                    <input type="hidden" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}">
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+
+            <label class="collection-sort__label" for="sort-by">
+              <span class="collection-sort__text">Ordenar por</span>
+              <select id="sort-by" name="sort_by" class="collection-sort__select">
+                {%- for option in collection.sort_options -%}
+                  <option
+                    value="{{ option.value }}"
+                    {% if option.value == collection.sort_by %}selected{% endif %}
+                  >
+                    {{ option.name }}
+                  </option>
+                {%- endfor -%}
+              </select>
+            </label>
+            <button type="submit" class="collection-sort__submit">Ordenar</button>
+          </form>
+        </div>
+      {%- endif -%}
+
       {%- comment -%} Resumo dos filtros ativos, com remoção individual {%- endcomment -%}
       {%- if collection.filters != blank -%}
         <div class="collection-active">
@@ -198,6 +239,44 @@
     font-size: 0.85rem;
   }
 
+  .collection-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+  }
+
+  .collection-sort {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .collection-sort__label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .collection-sort__text {
+    font-size: 0.85rem;
+  }
+
+  .collection-sort__select {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .collection-sort__submit {
+    cursor: pointer;
+    padding: 0.4rem 0.9rem;
+    background: var(--color-foreground, #1a1a1a);
+    color: var(--color-background, #fff);
+    border: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
   .collection-active {
     display: flex;
     flex-wrap: wrap;
@@ -217,4 +296,41 @@
 
   .collection-products {
     display: grid;
-    grid-template-columns: repeat(auto-fill,
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .collection-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  .collection-empty a {
+    display: inline-block;
+    margin-top: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .collection-layout {
+      grid-template-columns: 240px 1fr;
+    }
+
+    .collection-filters__summary {
+      pointer-events: none;
+      list-style: none;
+      padding-top: 0;
+    }
+
+    .collection-filters__summary::-webkit-details-marker {
+      display: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.collection",
+  "settings": []
+}
+{% endschema %}
