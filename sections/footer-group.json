@@ -1,0 +1,26 @@
+{
+  "type": "footer",
+  "name": "Rodapé",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "brand_title": "JOFA",
+        "brand_text": "Acessórios premium para cães, feitos com intenção.",
+        "contact_heading": "Atendimento",
+        "contact_email": "contato@jofa.com.br"
+      },
+      "blocks": {
+        "menu-1": {
+          "type": "menu",
+          "settings": {
+            "heading": "Navegação",
+            "menu": "main-menu"
+          }
+        }
+      },
+      "block_order": ["menu-1"]
+    }
+  },
+  "order": ["footer"]
+}
