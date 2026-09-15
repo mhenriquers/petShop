@@ -7,6 +7,7 @@
   Dados exibidos:
   - Imagem principal
   - Segunda imagem (hover, desktop)
+  - Selo de indisponibilidade (quando esgotado)
   - Nome do produto
   - Preço
   - Link para a página do produto
@@ -16,44 +17,50 @@
   {% assign second_image = product.images[1] %}
 
   <article class="product-card">
-    <a
-      class="product-card__link"
-      href="{{ product.url }}"
-      aria-label="{{ product.title | escape }}"
-    >
-      <div class="product-card__media{% if second_image %} product-card__media--swap{% endif %}">
-        {% if product.featured_image %}
-          {% render 'image',
-            class: 'product-card__image product-card__image--main',
-            image: product.featured_image,
-            url: product.url,
-            width: 400,
-            height: 400,
-            crop: 'center'
-          %}
-        {% endif %}
+    <div class="product-card__media-wrap">
+      <a
+        class="product-card__link"
+        href="{{ product.url }}"
+        aria-label="{{ product.title | escape }}"
+      >
+        <div class="product-card__media{% unless product.available %} product-card__media--sold-out{% endunless %}{% if second_image %} product-card__media--swap{% endif %}">
+          {% if product.featured_image %}
+            {% render 'image',
+              class: 'product-card__image product-card__image--main',
+              image: product.featured_image,
+              url: product.url,
+              width: 400,
+              height: 400,
+              crop: 'center'
+            %}
+          {% endif %}
 
-        {% if second_image %}
-          {% render 'image',
-            class: 'product-card__image product-card__image--alt',
-            image: second_image,
-            url: product.url,
-            width: 400,
-            height: 400,
-            crop: 'center'
-          %}
-        {% endif %}
-      </div>
+          {% if second_image %}
+            {% render 'image',
+              class: 'product-card__image product-card__image--alt',
+              image: second_image,
+              url: product.url,
+              width: 400,
+              height: 400,
+              crop: 'center'
+            %}
+          {% endif %}
+        </div>
+      </a>
 
-      <div class="product-card__content">
-        <h2 class="product-card__title">
-          {{ product.title | escape }}
-        </h2>
+      {% unless product.available %}
+        <span class="product-card__badge" aria-hidden="true">Esgotado</span>
+      {% endunless %}
+    </div>
 
-        <p class="product-card__price">
-          {{ product.price | money }}
-        </p>
-      </div>
-    </a>
+    <div class="product-card__content">
+      <h2 class="product-card__title">
+        <a href="{{ product.url }}">{{ product.title | escape }}</a>
+      </h2>
+
+      <p class="product-card__price">
+        {{ product.price | money }}
+      </p>
+    </div>
   </article>
 {% endif %}
