@@ -1,31 +1,25 @@
 {% comment %}
   This section is used in the collection template to render collection page
   listing all products within a collection.
-
   https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
 {% endcomment %}
 
 <h1>{{ collection.title }}</h1>
 
+{% if collection.description != blank %}
+  <div class="collection-description">
+    {{ collection.description }}
+  </div>
+{% endif %}
+
 <div class="collection-products">
   {% paginate collection.products by 20 %}
     {% for product in collection.products %}
-      <div class="collection-product">
-        {% if product.featured_image %}
-          {% render 'image',
-            class: 'collection-product__image',
-            image: product.featured_image,
-            url: product.url,
-            width: 400,
-            height: 400,
-            crop: 'center'
-          %}
-        {% endif %}
-        <div class="collection-product__content">
-          <p>{{ product.title | escape | link_to: product.url }}</p>
-          <p>{{ product.price | money }}</p>
-        </div>
-      </div>
+      {% render 'product-card', product: product %}
+    {% else %}
+      <p class="collection-empty">
+        {{ 'collections.general.no_matches' | t }}
+      </p>
     {% endfor %}
 
     {{ paginate | default_pagination }}
@@ -35,7 +29,49 @@
 {% stylesheet %}
   .collection-products {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .collection-description {
+    max-width: 60ch;
+    margin-bottom: 2rem;
+  }
+
+  .collection-empty {
+    grid-column: 1 / -1;
+  }
+
+  .product-card__media {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-card__image {
+    width: 100%;
+    display: block;
+  }
+
+  .product-card__image--alt {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  @media (hover: hover) and (min-width: 768px) {
+    .product-card__media--swap:hover .product-card__image--alt {
+      opacity: 1;
+    }
+  }
+
+  .product-card__title {
+    margin: 1rem 0 0.25rem;
+    font-size: 1rem;
+  }
+
+  .product-card__price {
+    margin: 0;
   }
 {% endstylesheet %}
 
