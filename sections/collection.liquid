@@ -12,6 +12,24 @@
   </div>
 {% endif %}
 
+{%- comment -%} Detecta se há filtros ativos para diferenciar os estados vazios {%- endcomment -%}
+{%- assign has_active_filters = false -%}
+{%- if collection.filters != blank -%}
+  {%- for filter in collection.filters -%}
+    {%- if filter.type == 'price_range' -%}
+      {%- if filter.min_value.value or filter.max_value.value -%}
+        {%- assign has_active_filters = true -%}
+      {%- endif -%}
+    {%- else -%}
+      {%- for filter_value in filter.values -%}
+        {%- if filter_value.active -%}
+          {%- assign has_active_filters = true -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
 {% paginate collection.products by 20 %}
   <div class="collection-layout">
 
@@ -96,6 +114,10 @@
       {%- comment -%} Ordenação — preserva os filtros ativos em campos ocultos {%- endcomment -%}
       {%- if collection.sort_options != blank -%}
         <div class="collection-toolbar">
+          <p class="collection-count">
+            {{ paginate.items }}
+            {% if paginate.items == 1 %}peça{% else %}peças{% endif %}
+          </p>
           <form method="get" action="{{ collection.url }}" class="collection-sort">
             {%- if collection.filters != blank -%}
               {%- for filter in collection.filters -%}
@@ -156,8 +178,27 @@
           {% render 'product-card', product: product %}
         {%- else -%}
           <div class="collection-empty">
-            <p>Nenhuma peça corresponde aos filtros selecionados.</p>
-            <a href="{{ collection.url }}">Ver todas as peças</a>
+            {%- if has_active_filters -%}
+              <p class="collection-empty__title">
+                Nenhuma peça corresponde aos filtros selecionados.
+              </p>
+              <a
+                class="collection-empty__link"
+                href="{{ collection.url }}"
+              >
+                Limpar filtros e ver todas as peças
+              </a>
+            {%- else -%}
+              <p class="collection-empty__title">
+                Esta coleção ainda não tem peças publicadas.
+              </p>
+              <a
+                class="collection-empty__link"
+                href="{{ routes.all_products_collection_url }}"
+              >
+                Ver o catálogo completo
+              </a>
+            {%- endif -%}
           </div>
         {%- endfor -%}
       </div>
