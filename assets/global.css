@@ -1253,3 +1253,107 @@
     padding: var(--spacing-lg, 2rem) 0 var(--spacing-md, 2rem) 0;
   }
 }
+/* ========================================
+   BENEFÍCIOS — Seção completa
+   Tarefa 4.4 (ajuste visual)
+   ======================================== */
+
+.benefits {
+  padding: var(--spacing-xl, 5rem) 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.benefits__container {
+  max-width: var(--max-width, 80rem);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md, 2rem);
+}
+
+.benefits__title {
+  font-family: var(--font-heading, Georgia, serif);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  color: var(--color-text, #1a1a1a);
+  text-align: center;
+  margin: 0 0 var(--spacing-lg, 2.5rem) 0;
+}
+
+.benefits__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-lg, 2rem);
+}
+
+/* --- Item individual --- */
+
+.benefits__item {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-md, 1.5rem);
+  background: var(--color-surface, #faf9f6);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+  transition: border-color 0.25s ease;
+}
+
+.benefits__item:hover {
+  border-color: rgba(0, 0, 0, 0.18);
+}
+
+/* --- Ícone (o que estava gigante) --- */
+
+.benefits__icon-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-sm, 1rem);
+}
+
+.benefits__icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  display: block;
+  color: var(--color-text, #1a1a1a);
+  opacity: 0.85;
+}
+
+/* --- Conteúdo --- */
+
+.benefits__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.benefits__item-title {
+  font-family: var(--font-body, sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-text, #1a1a1a);
+  margin: 0;
+}
+
+.benefits__item-text {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--color-text-muted, #555);
+  margin: 0;
+}
+
+/* ===== Responsive ===== */
+
+@media (max-width: 1024px) {
+  .benefits__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .benefits__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .benefits {
+    padding: var(--spacing-lg, 3rem) 0;
+  }
+}
