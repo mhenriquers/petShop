@@ -352,6 +352,76 @@
     margin-top: 1rem;
   }
 
+    /* ===== Coleção — ajustes mobile ===== */
+  @media (max-width: 767px) {
+    /* Toolbar empilha: contagem em cima, ordenação embaixo */
+    .collection-toolbar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .collection-sort {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .collection-sort__select {
+      flex: 1;
+      min-height: 44px;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .collection-sort__submit {
+      min-height: 44px;
+      padding: 0.5rem 1rem;
+    }
+
+    /* Alvos de toque nos filtros */
+    .collection-filters__summary {
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+
+    .collection-filters__option {
+      min-height: 44px;
+      padding: 0.25rem 0;
+    }
+
+    .collection-filters__option input {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    .collection-filters__apply,
+    .collection-filters__clear {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 1.25rem;
+    }
+
+    /* Pílulas de filtro ativo maiores para toque */
+    .collection-active__pill {
+      min-height: 36px;
+      padding: 0.4rem 0.9rem;
+    }
+
+    /* Grid: 2 colunas em celulares maiores, 1 em telas muito estreitas */
+    .collection-products {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .collection-products {
+      grid-template-columns: 1fr;
+    }
+  }
+
   @media (min-width: 768px) {
     .collection-layout {
       grid-template-columns: 240px 1fr;
