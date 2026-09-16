@@ -34,63 +34,6 @@
   gap: 1rem;
 }
 
-/* ============================================================
-   JOFA — Atelier Digital de Acessórios Premium para Pets
-   global.js — Comportamento global do tema
-   ============================================================ */
-
-(function () {
-  "use strict";
-
-  /**
-   * Inicialização global do tema.
-   * Funções específicas serão adicionadas em tarefas futuras:
-   * - Menu mobile
-   * - Drawer do carrinho
-   * - Galerias de produto
-   * - Seleção de variantes
-   * - Filtros e ordenação
-   */
-
-  console.log("[JOFA] Tema carregado.");
-})();
-
-/* ===========================================
-   Header
-   =========================================== */
-.header {
-  height: 5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.header a {
-  position: relative;
-  text-decoration: none;
-  color: var(--color-foreground);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.header a sup {
-  position: absolute;
-  left: 100%;
-  overflow: hidden;
-  max-width: var(--page-margin);
-}
-
-.header svg {
-  width: 2rem;
-}
-
-.header__menu,
-.header__icons {
-  display: flex;
-  gap: 1rem;
-}
-
 /* ===========================================
    Header — Search
    =========================================== */
@@ -161,149 +104,6 @@
     overflow: visible;
   }
 }
-
-/* ===========================================
-   Header — Search
-   =========================================== */
-.header__search {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.header__search-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-foreground);
-  padding: 0;
-}
-
-.header__search-toggle svg {
-  width: 2rem;
-  height: 2rem;
-}
-
-.header__search-input {
-  border: 1px solid var(--color-foreground);
-  border-radius: 0;
-  padding: 0.5rem 0.75rem;
-  font-size: 1rem;
-  background: transparent;
-  color: var(--color-foreground);
-  outline: none;
-  transition: width 0.2s ease;
-}
-
-.header__search-input:focus {
-  outline: 2px solid var(--color-foreground);
-  outline-offset: 2px;
-}
-
-/* Desktop: campo sempre visível */
-@media (min-width: 768px) {
-  .header__search-toggle {
-    display: none;
-  }
-
-  .header__search-input {
-    width: 12rem;
-  }
-}
-
-/* Mobile: campo oculto por padrão, visível ao tocar o ícone */
-@media (max-width: 767px) {
-  .header__search-input {
-    width: 0;
-    border: 0;
-    padding: 0;
-    clip: rect(0 0 0 0);
-    overflow: hidden;
-  }
-
-  .header__search.is-open .header__search-input {
-    width: 10rem;
-    border: 1px solid var(--color-foreground);
-    padding: 0.5rem 0.75rem;
-    clip: auto;
-    overflow: visible;
-  }
-}
-
-/* ===========================================
-   Header — Search
-   =========================================== */
-.header__search {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.header__search-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-foreground);
-  padding: 0;
-}
-
-.header__search-toggle svg {
-  width: 2rem;
-  height: 2rem;
-}
-
-.header__search-input {
-  border: 1px solid var(--color-foreground);
-  border-radius: 0;
-  padding: 0.5rem 0.75rem;
-  font-size: 1rem;
-  background: transparent;
-  color: var(--color-foreground);
-  outline: none;
-  transition: width 0.2s ease;
-}
-
-.header__search-input:focus {
-  outline: 2px solid var(--color-foreground);
-  outline-offset: 2px;
-}
-
-/* Desktop: campo sempre visível, toggle oculto */
-@media (min-width: 768px) {
-  .header__search-toggle {
-    display: none;
-  }
-
-  .header__search-input {
-    width: 12rem;
-  }
-}
-
-/* Mobile: campo oculto por padrão, visível ao tocar o ícone */
-@media (max-width: 767px) {
-  .header__search-input {
-    width: 0;
-    border: 0;
-    padding: 0;
-    clip: rect(0 0 0 0);
-    overflow: hidden;
-  }
-
-  .header__search.is-open .header__search-input {
-    width: 10rem;
-    border: 1px solid var(--color-foreground);
-    padding: 0.5rem 0.75rem;
-    clip: auto;
-    overflow: visible;
-  }
-}
-
 /* ===========================================
    Header — Mobile Menu
    =========================================== */
@@ -394,53 +194,6 @@
     transform: translateY(-0.55rem) rotate(-45deg);
   }
 }
-
-/* ========================================
-   HERO — Seção principal da home
-   Tarefa 4.1
-   ======================================== */
-
-.hero {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  background: var(--color-bg, #f5f1eb);
-}
-
-.hero__image-wrapper {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-.hero__image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.hero__image--placeholder {
-  background: var(--color-bg-alt, #e8e0d5);
-}
-
-.hero__overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 0, 0, 0.55) 0%,
-    rgba(0, 0, 0, 0.25) 50%,
-    rgba(0, 0, 0, 0.05) 100%
-  );
-}
-
 .hero__content {
   position: relative;
   z-index: 3;
@@ -642,7 +395,7 @@
 
 .product-card:hover .product-card__image,
 .product-card:focus-visible .product-card__image {
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 
 .product-card__image--placeholder {
