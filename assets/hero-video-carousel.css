@@ -92,7 +92,7 @@
   width: min(100% - 3rem, 1280px);
   height: 100%;
   margin: 0 auto;
-  padding: 5rem 0;
+   padding: 0rem 0 5rem;
 }
 
 .hero-video-carousel__eyebrow {
