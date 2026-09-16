@@ -1,0 +1,215 @@
+/* ============================================
+   HERO VIDEO CAROUSEL — JOFA
+   ============================================ */
+
+.hero-video-carousel {
+  --hero-height: min(82vh, 820px);
+
+  position: relative;
+  height: var(--hero-height);
+  overflow: hidden;
+  background-color: #1d1d1b;
+  color: #ffffff;
+}
+
+/* ---------- Slides ---------- */
+
+.hero-video-carousel__media {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.hero-video-carousel__slide {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 500ms ease;
+}
+
+.hero-video-carousel__slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ---------- Vídeo ---------- */
+
+.hero-video-carousel__video {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-video-carousel__placeholder {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #cfc5b7;
+  color: #25231f;
+}
+
+/* ---------- Overlay: gradiente escuro atrás do título ---------- */
+
+.hero-video-carousel__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.45) 40%,
+    rgba(0, 0, 0, 0) 75%
+  );
+}
+
+/* ---------- Conteúdo: título grande à esquerda ---------- */
+
+.hero-video-carousel__content {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  width: min(100% - 3rem, 1280px);
+  height: 100%;
+  margin: 0 auto;
+  padding: 5rem 0;
+}
+
+.hero-video-carousel__eyebrow {
+  margin: 0 0 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hero-video-carousel__heading {
+  max-width: 760px;
+  margin: 0;
+  font-size: clamp(2.5rem, 7vw, 6.5rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: #ffffff;
+}
+
+.hero-video-carousel__text {
+  max-width: 480px;
+  margin-top: 1.5rem;
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+.hero-video-carousel__button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3rem;
+  margin-top: 2rem;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.hero-video-carousel__button:hover,
+.hero-video-carousel__button:focus-visible {
+  background-color: #ffffff;
+  color: #1d1d1b;
+}
+
+/* ---------- Controles ---------- */
+
+.hero-video-carousel__controls {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 2rem;
+  left: 1.5rem;
+  z-index: 3;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hero-video-carousel__dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.hero-video-carousel__arrow,
+.hero-video-carousel__dot {
+  cursor: pointer;
+  border: 0;
+}
+
+.hero-video-carousel__arrow {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  background: transparent;
+  color: #ffffff;
+  font-size: 1.25rem;
+}
+
+.hero-video-carousel__arrow:hover,
+.hero-video-carousel__arrow:focus-visible {
+  background: #ffffff;
+  color: #1d1d1b;
+}
+
+.hero-video-carousel__dot {
+  width: 2rem;
+  height: 0.2rem;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.hero-video-carousel__dot.is-active {
+  background: #ffffff;
+}
+
+/* ---------- Mobile ---------- */
+
+@media screen and (max-width: 749px) {
+  .hero-video-carousel {
+    --hero-height: 78vh;
+  }
+
+  .hero-video-carousel__overlay {
+    background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.75) 0%,
+      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0.05) 100%
+    );
+  }
+
+  .hero-video-carousel__content {
+    width: calc(100% - 2rem);
+    padding: 4rem 0 7rem;
+  }
+}

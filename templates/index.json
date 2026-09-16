@@ -1,14 +1,52 @@
 {
   "sections": {
-    "hero": {
-      "type": "hero",
+    "hero_video_carousel": {
+      "type": "hero-video-carousel",
+      "blocks": {
+        "video_slide_1": {
+          "type": "video_slide",
+          "settings": {
+            "video_asset": "husky.mp4",
+            "eyebrow": "Coleção em destaque",
+            "heading": "Peças autorais para o seu melhor amigo",
+            "text": "<p>Acessórios premium feitos com intenção, materiais selecionados e acabamento que dura.</p>",
+            "button_label": "Comprar",
+            "button_link": "/collections/all"
+          }
+        },
+        "video_slide_2": {
+          "type": "video_slide",
+          "settings": {
+            "video_asset": "poodle.mp4",
+            "eyebrow": "Materiais escolhidos",
+            "heading": "Conforto em cada detalhe",
+            "text": "<p>Texturas, acabamentos e materiais selecionados para o uso diário.</p>",
+            "button_label": "Ver coleções",
+            "button_link": "/collections/all"
+          }
+        },
+        "video_slide_3": {
+          "type": "video_slide",
+          "settings": {
+            "video_asset": "shih-tzu.mp4",
+            "eyebrow": "O atelier",
+            "heading": "Feito com intenção",
+            "text": "<p>Uma curadoria de acessórios com presença, conforto e personalidade.</p>",
+            "button_label": "Conhecer o atelier",
+            "button_link": "/pages/o-atelier"
+          }
+        }
+      },
+      "block_order": [
+        "video_slide_1",
+        "video_slide_2",
+        "video_slide_3"
+      ],
       "settings": {
-        "hero_title": "Peças autorais para o seu melhor amigo",
-        "hero_text": "Acessórios premium feitos com intenção, materiais selecionados e acabamento que dura.",
-        "hero_button_label": "Comprar",
-        "hero_button_secondary_label": "Ver coleções"
+        "accessibility_label": "Apresentação da coleção principal"
       }
     },
+
     "featured-collection": {
       "type": "featured-collection",
       "settings": {
@@ -18,6 +56,7 @@
         "products_to_show": 4
       }
     },
+
     "materials-process": {
       "type": "materials-process",
       "settings": {
@@ -29,6 +68,7 @@
         "highlight_2_text": "Confecção cuidadosa, peça por peça."
       }
     },
+
     "benefits": {
       "type": "benefits",
       "settings": {},
@@ -73,6 +113,7 @@
         "benefit-4"
       ]
     },
+
     "featured-products": {
       "type": "featured-products",
       "settings": {
@@ -81,6 +122,7 @@
       "blocks": {},
       "block_order": []
     },
+
     "institutional": {
       "type": "institutional",
       "settings": {
@@ -89,6 +131,7 @@
         "button_label": "Conheça o atelier"
       }
     },
+
     "main-banner": {
       "type": "main-banner",
       "settings": {
@@ -97,8 +140,9 @@
       }
     }
   },
+
   "order": [
-    "hero",
+    "hero_video_carousel",
     "featured-collection",
     "materials-process",
     "benefits",
