@@ -89,10 +89,10 @@
   align-items: flex-start;
   justify-content: center;
 
-  width: min(100% - 3rem, 1280px);
+  width: 100%;               /* container ocupa a tela inteira */
   height: 100%;
-  margin: 0 auto;
-   padding: 0rem 0 5rem;
+  margin: 0;                 /* ← remove a centralização (era o culpado) */
+  padding: 0rem 0 10rem 3rem; /* topo / lados / baixo / ESQUERDA */
 }
 
 .hero-video-carousel__eyebrow {
