@@ -4,7 +4,8 @@
   Tarefa 6.2: identidade (título, coleção, preço, disponibilidade).
   Tarefa 6.3: seletor de variantes com preço dinâmico.
   Tarefa 6.4: quantidade + botão de adicionar ao carrinho.
-  Tarefas 6.5 a 6.8 completam prova, serviço e continuidade.
+  Tarefa 6.5: prova material (materiais, dimensões, cuidados).
+  Tarefas 6.6 a 6.8 completam logística, FAQ e relacionados.
 {% endcomment %}
 
 <div class="product-page">
@@ -59,10 +60,7 @@
 
     <h1 class="product-info__title">{{ product.title | escape }}</h1>
 
-    <p
-      class="product-info__price"
-      data-product-price
-    >
+    <p class="product-info__price" data-product-price>
       <span class="product-info__price-value">
         {{ product.selected_or_first_available_variant.price | money }}
       </span>
@@ -139,7 +137,48 @@
         {% endif %}
       </button>
     </form>
-    {%- comment -%} ===== Fim da compra — prova material entra na 6.5 ===== {%- endcomment -%}
+  </div>
+
+  {%- comment -%} ===== Prova material — Tarefa 6.5 ===== {%- endcomment -%}
+  {%- assign materials = product.metafields.custom.materiais -%}
+  {%- assign dimensions = product.metafields.custom.dimensoes -%}
+  {%- assign care = product.metafields.custom.cuidados -%}
+  {%- assign has_specs = false -%}
+  {%- if materials != blank or dimensions != blank or care != blank -%}
+    {%- assign has_specs = true -%}
+  {%- endif -%}
+
+  <div class="product-proof">
+    {% if product.description != blank %}
+      <div class="product-proof__description rte">
+        {{ product.description }}
+      </div>
+    {% endif %}
+
+    {% if has_specs %}
+      <div class="product-proof__details">
+        {% if materials != blank %}
+          <details class="product-proof__item">
+            <summary class="product-proof__summary">Materiais</summary>
+            <div class="product-proof__content rte">{{ materials }}</div>
+          </details>
+        {% endif %}
+
+        {% if dimensions != blank %}
+          <details class="product-proof__item">
+            <summary class="product-proof__summary">Dimensões</summary>
+            <div class="product-proof__content rte">{{ dimensions }}</div>
+          </details>
+        {% endif %}
+
+        {% if care != blank %}
+          <details class="product-proof__item">
+            <summary class="product-proof__summary">Cuidados</summary>
+            <div class="product-proof__content rte">{{ care }}</div>
+          </details>
+        {% endif %}
+      </div>
+    {% endif %}
   </div>
 </div>
 
@@ -385,6 +424,57 @@
   .product-purchase__button:disabled {
     cursor: not-allowed;
     opacity: 0.4;
+  }
+
+  /* ===== Prova material — Tarefa 6.5 ===== */
+  .product-proof {
+    grid-column: 1 / -1;
+    max-width: 48rem;
+  }
+
+  .product-proof__description {
+    margin: 0 0 2rem;
+    line-height: 1.7;
+  }
+
+  .product-proof__details {
+    border-top: 1px solid var(--color-foreground, #1a1a1a);
+  }
+
+  .product-proof__item {
+    border-bottom: 1px solid var(--color-foreground, #1a1a1a);
+  }
+
+  .product-proof__summary {
+    cursor: pointer;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    list-style: none;
+  }
+
+  .product-proof__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .product-proof__summary::after {
+    content: '+';
+    float: right;
+    font-size: 1.1rem;
+  }
+
+  .product-proof__item[open] .product-proof__summary::after {
+    content: '−';
+  }
+
+  .product-proof__content {
+    padding: 0 0 1.25rem;
+    line-height: 1.7;
+  }
+
+  .rte a {
+    color: inherit;
   }
 
   @media (min-width: 768px) {
