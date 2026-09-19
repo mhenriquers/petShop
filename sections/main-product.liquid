@@ -2,7 +2,8 @@
   Página de produto — seção principal.
   Tarefa 6.1: galeria de imagens.
   Tarefa 6.2: identidade (título, coleção, preço, disponibilidade).
-  As Tarefas 6.3 e 6.4 completam variantes e compra.
+  Tarefa 6.3: seletor de variantes com preço dinâmico.
+  A Tarefa 6.4 completa quantidade e botão de compra.
 {% endcomment %}
 
 <div class="product-page">
@@ -57,46 +58,89 @@
 
     <h1 class="product-info__title">{{ product.title | escape }}</h1>
 
-    {% if product.available %}
-      <p class="product-info__price">{{ product.price | money }}</p>
-    {% else %}
-      <p class="product-info__price product-info__price--sold-out">
-        {{ product.price | money }}
+    <p
+      class="product-info__price"
+      data-product-price
+      data-price="{{ product.selected_or_first_available_variant.price }}"
+      data-available="{{ product.selected_or_first_available_variant.available }}"
+    >
+      <span class="product-info__price-value">
+        {{ product.selected_or_first_available_variant.price | money }}
+      </span>
+      {% unless product.selected_or_first_available_variant.available %}
         <span class="product-info__badge">Esgotado</span>
-      </p>
+      {% endunless %}
+    </p>
+
+    {%- comment -%} ===== Seletor de variantes — Tarefa 6.3 ===== {%- endcomment -%}
+    {% if product.variants.size > 1 %}
+      <form method="get" action="{{ product.url }}" class="product-variants">
+        <label class="product-variants__label" for="variant-select">
+          {{ product.options | join: ' / ' }}
+        </label>
+        <select
+          id="variant-select"
+          name="variant"
+          class="product-variants__select"
+          data-variant-select
+        >
+          {% for variant in product.variants %}
+            <option
+              value="{{ variant.id }}"
+              {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+              {% unless variant.available %}disabled{% endunless %}
+            >
+              {{ variant.title }} — {{ variant.price | money }}{% unless variant.available %} (esgotado){% endunless %}
+            </option>
+          {% endfor %}
+        </select>
+      </form>
     {% endif %}
-    {%- comment -%} ===== Fim da identidade — variantes e compra entram nas 6.3/6.4 ===== {%- endcomment -%}
+    {%- comment -%} ===== Fim do seletor — quantidade e compra entram na 6.4 ===== {%- endcomment -%}
   </div>
 </div>
+
+<script type="application/json" data-variant-data>
+  {{ product.variants | json }}
+</script>
 
 {% javascript %}
 (function () {
   'use strict';
 
-  var gallery = document.querySelector('.product-gallery');
-  if (!gallery) return;
+  var select = document.querySelector('[data-variant-select]');
+  var priceEl = document.querySelector('[data-product-price]');
+  if (!select || !priceEl) return;
 
-  var slides = gallery.querySelectorAll('.product-gallery__slide');
-  var thumbs = gallery.querySelectorAll('.product-gallery__thumb');
+  var dataEl = document.querySelector('[data-variant-data]');
+  var variants = JSON.parse(dataEl.textContent);
 
-  thumbs.forEach(function (thumb) {
-    thumb.addEventListener('click', function () {
-      var index = thumb.getAttribute('data-slide');
+  function formatMoney(cents) {
+    return '$' + (cents / 100).toFixed(2);
+  }
 
-      slides.forEach(function (slide) {
-        slide.hidden = slide.id !== 'product-slide-' + index;
-      });
+  select.addEventListener('change', function () {
+    var id = parseInt(select.value, 10);
+    var variant = variants.find(function (v) { return v.id === id; });
+    if (!variant) return;
 
-      thumbs.forEach(function (t) {
-        var isActive = t === thumb;
-        t.classList.toggle('is-active', isActive);
-        if (isActive) {
-          t.setAttribute('aria-current', 'true');
-        } else {
-          t.removeAttribute('aria-current');
-        }
-      });
-    });
+    var priceValue = priceEl.querySelector('.product-info__price-value');
+    var badge = priceEl.querySelector('.product-info__badge');
+
+    priceValue.textContent = formatMoney(variant.price);
+
+    if (badge) badge.remove();
+
+    if (!variant.available) {
+      badge = document.createElement('span');
+      badge.className = 'product-info__badge';
+      badge.textContent = 'Esgotado';
+      priceEl.appendChild(badge);
+    }
+
+    var url = new URL(window.location);
+    url.searchParams.set('variant', id);
+    window.history.replaceState({}, '', url);
   });
 })();
 {% endjavascript %}
@@ -194,6 +238,29 @@
     font-size: 0.7rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+
+  /* ===== Seletor de variantes — Tarefa 6.3 ===== */
+  .product-variants {
+    margin: 0 0 1.5rem;
+  }
+
+  .product-variants__label {
+    display: block;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-variants__select {
+    width: 100%;
+    max-width: 20rem;
+    min-height: 44px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    background: var(--color-background, #fff);
+    border: 1px solid var(--color-foreground, #1a1a1a);
   }
 
   @media (min-width: 768px) {
