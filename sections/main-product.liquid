@@ -1,7 +1,8 @@
 {% comment %}
   Página de produto — seção principal.
-  Tarefa 6.1: galeria de imagens. As tarefas 6.2 a 6.8
-  completam a coluna direita (buy box) e o corpo da página.
+  Tarefa 6.1: galeria de imagens.
+  Tarefa 6.2: identidade (título, coleção, preço, disponibilidade).
+  As Tarefas 6.3 e 6.4 completam variantes e compra.
 {% endcomment %}
 
 <div class="product-page">
@@ -49,7 +50,22 @@
   </div>
 
   <div class="product-info">
-    {%- comment -%} Buy box — preenchida nas Tarefas 6.2 a 6.4 {%- endcomment -%}
+    {%- comment -%} ===== Identidade — Tarefa 6.2 ===== {%- endcomment -%}
+    {% if product.collections.first %}
+      <p class="product-info__collection">{{ product.collections.first.title }}</p>
+    {% endif %}
+
+    <h1 class="product-info__title">{{ product.title | escape }}</h1>
+
+    {% if product.available %}
+      <p class="product-info__price">{{ product.price | money }}</p>
+    {% else %}
+      <p class="product-info__price product-info__price--sold-out">
+        {{ product.price | money }}
+        <span class="product-info__badge">Esgotado</span>
+      </p>
+    {% endif %}
+    {%- comment -%} ===== Fim da identidade — variantes e compra entram nas 6.3/6.4 ===== {%- endcomment -%}
   </div>
 </div>
 
@@ -143,6 +159,41 @@
   .product-gallery__thumb:focus-visible {
     outline: 2px solid var(--color-foreground, #1a1a1a);
     outline-offset: 2px;
+  }
+
+  /* ===== Identidade — Tarefa 6.2 ===== */
+  .product-info__collection {
+    margin: 0 0 0.5rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .product-info__title {
+    margin: 0 0 1rem;
+    font-family: var(--font-heading, Georgia, 'Times New Roman', serif);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 400;
+    line-height: 1.15;
+  }
+
+  .product-info__price {
+    margin: 0 0 1.5rem;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .product-info__badge {
+    display: inline-block;
+    padding: 0.3rem 0.75rem;
+    background: var(--color-foreground, #1a1a1a);
+    color: var(--color-background, #fff);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   @media (min-width: 768px) {
