@@ -3,7 +3,8 @@
   Tarefa 6.1: galeria de imagens.
   Tarefa 6.2: identidade (título, coleção, preço, disponibilidade).
   Tarefa 6.3: seletor de variantes com preço dinâmico.
-  A Tarefa 6.4 completa quantidade e botão de compra.
+  Tarefa 6.4: quantidade + botão de adicionar ao carrinho.
+  Tarefas 6.5 a 6.8 completam prova, serviço e continuidade.
 {% endcomment %}
 
 <div class="product-page">
@@ -61,8 +62,6 @@
     <p
       class="product-info__price"
       data-product-price
-      data-price="{{ product.selected_or_first_available_variant.price }}"
-      data-available="{{ product.selected_or_first_available_variant.available }}"
     >
       <span class="product-info__price-value">
         {{ product.selected_or_first_available_variant.price | money }}
@@ -74,19 +73,20 @@
 
     {%- comment -%} ===== Seletor de variantes — Tarefa 6.3 ===== {%- endcomment -%}
     {% if product.variants.size > 1 %}
-      <form method="get" action="{{ product.url }}" class="product-variants">
+      <div class="product-variants">
         <label class="product-variants__label" for="variant-select">
           {{ product.options | join: ' / ' }}
         </label>
         <select
           id="variant-select"
-          name="variant"
           class="product-variants__select"
           data-variant-select
         >
           {% for variant in product.variants %}
             <option
               value="{{ variant.id }}"
+              data-price="{{ variant.price }}"
+              data-available="{{ variant.available }}"
               {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
               {% unless variant.available %}disabled{% endunless %}
             >
@@ -94,52 +94,124 @@
             </option>
           {% endfor %}
         </select>
-      </form>
+      </div>
     {% endif %}
-    {%- comment -%} ===== Fim do seletor — quantidade e compra entram na 6.4 ===== {%- endcomment -%}
+
+    {%- comment -%} ===== Compra — Tarefa 6.4 ===== {%- endcomment -%}
+    <form
+      method="post"
+      action="{{ routes.cart_add_url }}"
+      class="product-purchase"
+      data-product-form
+    >
+      <input
+        type="hidden"
+        name="id"
+        value="{{ product.selected_or_first_available_variant.id }}"
+        data-variant-input
+      >
+      <input type="hidden" name="form_type" value="product">
+      <input type="hidden" name="utf8" value="✓">
+
+      <div class="product-purchase__quantity">
+        <label class="product-purchase__qty-label" for="quantity-input">Quantidade</label>
+        <input
+          type="number"
+          id="quantity-input"
+          name="quantity"
+          value="1"
+          min="1"
+          max="99"
+          inputmode="numeric"
+          class="product-purchase__qty-input"
+        >
+      </div>
+
+      <button
+        type="submit"
+        class="product-purchase__button"
+        {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+      >
+        {% if product.selected_or_first_available_variant.available %}
+          Adicionar ao carrinho
+        {% else %}
+          Esgotado
+        {% endif %}
+      </button>
+    </form>
+    {%- comment -%} ===== Fim da compra — prova material entra na 6.5 ===== {%- endcomment -%}
   </div>
 </div>
-
-<script type="application/json" data-variant-data>
-  {{ product.variants | json }}
-</script>
 
 {% javascript %}
 (function () {
   'use strict';
 
+  var gallery = document.querySelector('.product-gallery');
+  if (gallery) {
+    var slides = gallery.querySelectorAll('.product-gallery__slide');
+    var thumbs = gallery.querySelectorAll('.product-gallery__thumb');
+
+    thumbs.forEach(function (thumb) {
+      thumb.addEventListener('click', function () {
+        var index = thumb.getAttribute('data-slide');
+
+        slides.forEach(function (slide) {
+          slide.hidden = slide.id !== 'product-slide-' + index;
+        });
+
+        thumbs.forEach(function (t) {
+          var isActive = t === thumb;
+          t.classList.toggle('is-active', isActive);
+          if (isActive) {
+            t.setAttribute('aria-current', 'true');
+          } else {
+            t.removeAttribute('aria-current');
+          }
+        });
+      });
+    });
+  }
+
   var select = document.querySelector('[data-variant-select]');
   var priceEl = document.querySelector('[data-product-price]');
-  if (!select || !priceEl) return;
+  var variantInput = document.querySelector('[data-variant-input]');
+  var submitButton = document.querySelector('[data-product-form] [type="submit"]');
 
-  var dataEl = document.querySelector('[data-variant-data]');
-  var variants = JSON.parse(dataEl.textContent);
+  if (!select || !priceEl || !variantInput) return;
 
   function formatMoney(cents) {
     return '$' + (cents / 100).toFixed(2);
   }
 
   select.addEventListener('change', function () {
-    var id = parseInt(select.value, 10);
-    var variant = variants.find(function (v) { return v.id === id; });
-    if (!variant) return;
+    var option = select.options[select.selectedIndex];
+    var price = option.getAttribute('data-price');
+    var available = option.getAttribute('data-available') === 'true';
+
+    variantInput.value = select.value;
 
     var priceValue = priceEl.querySelector('.product-info__price-value');
     var badge = priceEl.querySelector('.product-info__badge');
 
-    priceValue.textContent = formatMoney(variant.price);
+    priceValue.textContent = formatMoney(parseInt(price, 10));
 
     if (badge) badge.remove();
 
-    if (!variant.available) {
+    if (!available) {
       badge = document.createElement('span');
       badge.className = 'product-info__badge';
       badge.textContent = 'Esgotado';
       priceEl.appendChild(badge);
     }
 
+    if (submitButton) {
+      submitButton.disabled = !available;
+      submitButton.textContent = available ? 'Adicionar ao carrinho' : 'Esgotado';
+    }
+
     var url = new URL(window.location);
-    url.searchParams.set('variant', id);
+    url.searchParams.set('variant', select.value);
     window.history.replaceState({}, '', url);
   });
 })();
@@ -261,6 +333,58 @@
     font-size: 1rem;
     background: var(--color-background, #fff);
     border: 1px solid var(--color-foreground, #1a1a1a);
+  }
+
+  /* ===== Compra — Tarefa 6.4 ===== */
+  .product-purchase {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 0 0 1.5rem;
+  }
+
+  .product-purchase__quantity {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .product-purchase__qty-label {
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .product-purchase__qty-input {
+    width: 4.5rem;
+    min-height: 44px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    text-align: center;
+    border: 1px solid var(--color-foreground, #1a1a1a);
+    background: var(--color-background, #fff);
+  }
+
+  .product-purchase__button {
+    min-height: 48px;
+    padding: 0.85rem 2rem;
+    cursor: pointer;
+    background: var(--color-foreground, #1a1a1a);
+    color: var(--color-background, #fff);
+    border: 1px solid var(--color-foreground, #1a1a1a);
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: opacity 0.2s ease;
+  }
+
+  .product-purchase__button:hover:not(:disabled) {
+    opacity: 0.85;
+  }
+
+  .product-purchase__button:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
   }
 
   @media (min-width: 768px) {
