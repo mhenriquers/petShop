@@ -1,0 +1,166 @@
+{% comment %}
+  Página de produto — seção principal.
+  Tarefa 6.1: galeria de imagens. As tarefas 6.2 a 6.8
+  completam a coluna direita (buy box) e o corpo da página.
+{% endcomment %}
+
+<div class="product-page">
+  <div class="product-gallery">
+    <div class="product-gallery__main">
+      {% if product.media.size > 0 %}
+        {% for media in product.media %}
+          <div
+            class="product-gallery__slide"
+            id="product-slide-{{ forloop.index0 }}"
+            {% unless forloop.first %}hidden{% endunless %}
+          >
+            {% render 'image',
+              class: 'product-gallery__image',
+              image: media,
+              url: product.url,
+              width: 1200,
+              height: 1500,
+              crop: 'center'
+            %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="product-gallery__slide">
+          {{ 'product-1' | placeholder_svg_tag: 'product-gallery__placeholder' }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if product.media.size > 1 %}
+      <div class="product-gallery__thumbs" role="group" aria-label="Imagens do produto">
+        {% for media in product.media %}
+          <button
+            type="button"
+            class="product-gallery__thumb{% if forloop.first %} is-active{% endif %}"
+            data-slide="{{ forloop.index0 }}"
+            aria-label="Ver imagem {{ forloop.index }} de {{ product.media.size }}"
+            {% if forloop.first %}aria-current="true"{% endif %}
+          >
+            {{ media.preview_image | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}
+          </button>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="product-info">
+    {%- comment -%} Buy box — preenchida nas Tarefas 6.2 a 6.4 {%- endcomment -%}
+  </div>
+</div>
+
+{% javascript %}
+(function () {
+  'use strict';
+
+  var gallery = document.querySelector('.product-gallery');
+  if (!gallery) return;
+
+  var slides = gallery.querySelectorAll('.product-gallery__slide');
+  var thumbs = gallery.querySelectorAll('.product-gallery__thumb');
+
+  thumbs.forEach(function (thumb) {
+    thumb.addEventListener('click', function () {
+      var index = thumb.getAttribute('data-slide');
+
+      slides.forEach(function (slide) {
+        slide.hidden = slide.id !== 'product-slide-' + index;
+      });
+
+      thumbs.forEach(function (t) {
+        var isActive = t === thumb;
+        t.classList.toggle('is-active', isActive);
+        if (isActive) {
+          t.setAttribute('aria-current', 'true');
+        } else {
+          t.removeAttribute('aria-current');
+        }
+      });
+    });
+  });
+})();
+{% endjavascript %}
+
+{% stylesheet %}
+  .product-page {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: var(--max-width, 80rem);
+    margin: 0 auto;
+    padding: 2rem var(--spacing-md, 2rem) 4rem;
+  }
+
+  .product-gallery__main {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-gallery__slide {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background: var(--color-bg-alt, #e8e0d5);
+  }
+
+  .product-gallery__image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .product-gallery__thumbs {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .product-gallery__thumb {
+    width: 72px;
+    height: 90px;
+    padding: 0;
+    border: 1px solid transparent;
+    background: none;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .product-gallery__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .product-gallery__thumb.is-active {
+    border-color: var(--color-foreground, #1a1a1a);
+  }
+
+  .product-gallery__thumb:focus-visible {
+    outline: 2px solid var(--color-foreground, #1a1a1a);
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 768px) {
+    .product-page {
+      grid-template-columns: 1.2fr 1fr;
+      gap: 4rem;
+    }
+
+    .product-gallery__thumb {
+      width: 80px;
+      height: 100px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Produto principal",
+  "settings": []
+}
+{% endschema %}
